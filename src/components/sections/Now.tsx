@@ -1,29 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { m } from "framer-motion";
 import { SECTIONS } from "@/lib/constants";
-import { createClient } from "@/lib/supabase/client";
-import type { NowItem } from "@/lib/supabase/types";
 import SectionWrapper from "@/components/ui/SectionWrapper";
-
-const FALLBACK: Record<string, string[]> = {
-  building: [
-    "Scaling Kuroda.com — Adobe Commerce + SAP",
-    "This portfolio (jpka.dev)",
-    "TikTok Shop integration for Kuroda",
-  ],
-  reading: [
-    "The Almanack of Naval Ravikant",
-    "Staff Engineer by Will Larson",
-    "Meditations by Marcus Aurelius",
-  ],
-  playing: [
-    "Learning piano",
-    "Exploring generative art",
-    "Being a dad to Nova",
-  ],
-};
 
 const CATEGORY_LABELS: Record<string, string> = {
   building: "Building",
@@ -64,29 +43,7 @@ function NowColumn({
   );
 }
 
-export default function Now() {
-  const [data, setData] = useState<Record<string, string[]>>(FALLBACK);
-
-  useEffect(() => {
-    const supabase = createClient();
-    supabase
-      .from("now_items")
-      .select("category, content, sort_order")
-      .eq("active", true)
-      .order("sort_order")
-      .returns<Pick<NowItem, "category" | "content" | "sort_order">[]>()
-      .then(({ data: items }) => {
-        if (items && items.length > 0) {
-          const grouped: Record<string, string[]> = {};
-          for (const item of items) {
-            if (!grouped[item.category]) grouped[item.category] = [];
-            grouped[item.category].push(item.content);
-          }
-          setData(grouped);
-        }
-      });
-  }, []);
-
+export default function Now({ data }: { data: Record<string, string[]> }) {
   const categories = Object.keys(data);
 
   return (
