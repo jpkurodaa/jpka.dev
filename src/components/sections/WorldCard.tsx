@@ -33,7 +33,7 @@ export default function WorldCard({
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        className="relative overflow-hidden rounded-2xl border border-ash bg-ash/30 transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
+        className="relative overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[transform,border-color] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
       >
         {/* Glow effect — covers entire card */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
@@ -46,7 +46,7 @@ export default function WorldCard({
               alt={world.imageAlt || world.title}
               fill
               sizes="(max-width: 640px) 100vw, 50vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover will-change-transform transition-transform duration-300 ease-out group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-void" />
           </div>
