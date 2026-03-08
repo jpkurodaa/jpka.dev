@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { m } from "framer-motion";
 import type { World } from "@/data/worlds";
@@ -13,6 +14,7 @@ export default function WorldCard({
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
@@ -20,6 +22,10 @@ export default function WorldCard({
     const rect = card.getBoundingClientRect();
     card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
     card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+  };
+
+  const handleClick = () => {
+    router.push(`/worlds/${world.id}`);
   };
 
   return (
@@ -30,10 +36,13 @@ export default function WorldCard({
       transition={{ duration: 0.6, delay: index * 0.15 }}
       className="group pb-1"
     >
-      <div
+      <m.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        className="relative overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[transform,border-color] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
+        onClick={handleClick}
+        whileTap={{ scale: 0.97, y: 6 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className="relative cursor-pointer overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[transform,border-color] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
       >
         {/* Glow effect — covers entire card */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
@@ -66,8 +75,12 @@ export default function WorldCard({
           <p className="mt-4 text-sm leading-relaxed text-smoke">
             {world.description}
           </p>
+
+          <p className="mt-4 text-xs uppercase tracking-[0.2em] text-gold/60 transition-colors group-hover:text-gold">
+            Explore &rarr;
+          </p>
         </div>
-      </div>
+      </m.div>
     </m.div>
   );
 }
