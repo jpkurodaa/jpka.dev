@@ -45,7 +45,7 @@ function MediaCard({ item, index }: { item: MediaItem; index: number }) {
 
 export default function WorldDetail({ world }: { world: World }) {
   return (
-    <main className="min-h-svh bg-void">
+    <main className="min-h-svh">
       {/* Hero */}
       <div className="relative h-[60vh] overflow-hidden">
         {world.image && (
