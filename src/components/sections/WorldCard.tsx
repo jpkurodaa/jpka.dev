@@ -37,9 +37,21 @@ export default function WorldCard({
     }
 
     const rect = img.getBoundingClientRect();
-    const clone = img.cloneNode(true) as HTMLElement;
 
-    // Position clone exactly where original is
+    // Create full-screen overlay
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: #0A0A0A;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    `;
+    document.body.appendChild(overlay);
+
+    // Clone image at its exact position
+    const clone = img.cloneNode(true) as HTMLElement;
     clone.style.cssText = `
       position: fixed;
       top: ${rect.top}px;
@@ -50,11 +62,13 @@ export default function WorldCard({
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
     `;
     document.body.appendChild(clone);
 
-    // Trigger expand to full viewport top
+    // Animate: fade overlay in + expand image
     requestAnimationFrame(() => {
+      overlay.style.opacity = "1";
       clone.style.top = "0px";
       clone.style.left = "0px";
       clone.style.width = "100vw";
@@ -62,9 +76,10 @@ export default function WorldCard({
       clone.style.borderRadius = "0px";
     });
 
+    // Navigate after transition, cleanup happens on unmount
     setTimeout(() => {
       router.push(`/worlds/${world.id}`);
-    }, 400);
+    }, 450);
   };
 
   const isEven = index % 2 === 0;
@@ -82,9 +97,7 @@ export default function WorldCard({
         onClick={handleClick}
         whileTap={{ scale: 0.985 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[border-color] duration-300 ease-out hover:border-gold/40 ${
-          expanding ? "opacity-0" : ""
-        }`}
+        className="group relative cursor-pointer overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[border-color] duration-300 ease-out hover:border-gold/40"
       >
         {/* Glow effect */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
