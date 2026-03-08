@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/supabase/types";
@@ -48,6 +49,20 @@ export default async function BlogPost({ params }: Props) {
       </Link>
 
       <article className="mt-8">
+        {post.cover_image && (
+          <div className="relative mb-8 aspect-[2/1] overflow-hidden rounded-xl">
+            <Image
+              src={post.cover_image}
+              alt={post.title}
+              fill
+              sizes="672px"
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
+          </div>
+        )}
+
         <time className="text-xs text-smoke">
           {new Date(post.created_at).toLocaleDateString("en-US", {
             year: "numeric",
@@ -59,7 +74,7 @@ export default async function BlogPost({ params }: Props) {
           {post.title}
         </h1>
 
-        <div className="prose-invert mt-12 max-w-none text-sm leading-relaxed text-bone/90 [&>p]:mb-6">
+        <div className="mt-12 max-w-none text-base leading-relaxed text-bone/90 [&>p]:mb-6">
           {post.content.split("\n\n").map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
           ))}

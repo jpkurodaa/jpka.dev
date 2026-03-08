@@ -4,6 +4,19 @@ import { useState, useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { NAV_ITEMS } from "@/lib/constants";
 
+type NavLink =
+  | { type: "hash"; id: string; label: string }
+  | { type: "page"; href: string; label: string };
+
+const ALL_NAV: NavLink[] = [
+  ...NAV_ITEMS.map((item) => ({
+    type: "hash" as const,
+    id: item.id,
+    label: item.label,
+  })),
+  { type: "page", href: "/blog", label: "Blog" },
+];
+
 export default function Navigation() {
   const [visible, setVisible] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -13,6 +26,9 @@ export default function Navigation() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const getHref = (item: NavLink) =>
+    item.type === "hash" ? `#${item.id}` : item.href;
 
   return (
     <AnimatePresence>
@@ -34,10 +50,10 @@ export default function Navigation() {
 
             {/* Desktop */}
             <ul className="hidden gap-8 sm:flex">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.id}>
+              {ALL_NAV.map((item) => (
+                <li key={item.label}>
                   <a
-                    href={`#${item.id}`}
+                    href={getHref(item)}
                     className="text-xs uppercase tracking-[0.2em] text-smoke transition-colors hover:text-gold"
                   >
                     {item.label}
@@ -81,10 +97,10 @@ export default function Navigation() {
                 className="overflow-hidden border-t border-ash/50 sm:hidden"
               >
                 <ul className="flex flex-col gap-1 p-4">
-                  {NAV_ITEMS.map((item) => (
-                    <li key={item.id}>
+                  {ALL_NAV.map((item) => (
+                    <li key={item.label}>
                       <a
-                        href={`#${item.id}`}
+                        href={getHref(item)}
                         onClick={() => setMobileOpen(false)}
                         className="block rounded-lg px-4 py-3 text-xs uppercase tracking-[0.2em] text-smoke transition-colors hover:bg-ash/50 hover:text-gold"
                       >

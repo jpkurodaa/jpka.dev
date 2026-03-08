@@ -2,6 +2,8 @@ export interface TimelineEvent {
   year: string;
   title: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 export const TIMELINE: TimelineEvent[] = [
@@ -14,17 +16,23 @@ export const TIMELINE: TimelineEvent[] = [
     year: "2010",
     title: "First Ventures",
     description: "Early business experiments and finding my own path.",
+    image: "/images/jp-kobra.jpg",
+    imageAlt: "JP Kuroda at Kobra offices during early ventures",
   },
   {
     year: "2018",
     title: "Interceramic",
     description: "Family franchise — learning retail operations from the inside.",
+    image: "/images/interceramic.jpg",
+    imageAlt: "JP Kuroda with the Interceramic team",
   },
   {
     year: "2021",
     title: "Kuroda Online",
     description:
       "Took the helm of Kuroda's digital channel. Built the e-commerce operation from scratch.",
+    image: "/images/kuroda-team.jpg",
+    imageAlt: "JP Kuroda with the Kuroda team",
   },
   {
     year: "2024",

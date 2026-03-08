@@ -46,5 +46,7 @@ export const WORLDS: World[] = [
     description:
       "Music, visual art, and creative experiments. The counterweight to analytical thinking — making things that exist for their own sake.",
     icon: "🎨",
+    image: "/images/jp-art-immersive.jpg",
+    imageAlt: "JP Kuroda in an immersive art experience",
   },
 ];

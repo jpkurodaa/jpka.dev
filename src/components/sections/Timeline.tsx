@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { m } from "framer-motion";
 import { SECTIONS } from "@/lib/constants";
 import { TIMELINE } from "@/data/timeline";
@@ -51,6 +52,19 @@ export default function Timeline() {
               <p className="mt-2 text-sm leading-relaxed text-smoke">
                 {event.description}
               </p>
+
+              {event.image && (
+                <div className="relative mt-4 aspect-video overflow-hidden rounded-lg">
+                  <Image
+                    src={event.image}
+                    alt={event.imageAlt || event.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
+                </div>
+              )}
             </m.div>
           ))}
         </div>
