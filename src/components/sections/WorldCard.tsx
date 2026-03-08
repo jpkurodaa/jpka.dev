@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { m } from "framer-motion";
@@ -14,9 +14,7 @@ export default function WorldCard({
   index: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [expanding, setExpanding] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
@@ -24,62 +22,6 @@ export default function WorldCard({
     const rect = card.getBoundingClientRect();
     card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
     card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
-  };
-
-  const handleClick = () => {
-    if (expanding) return;
-    setExpanding(true);
-
-    const img = imgRef.current;
-    if (!img) {
-      router.push(`/worlds/${world.id}`);
-      return;
-    }
-
-    const rect = img.getBoundingClientRect();
-
-    // Create full-screen overlay
-    const overlay = document.createElement("div");
-    overlay.style.cssText = `
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: #0A0A0A;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    `;
-    document.body.appendChild(overlay);
-
-    // Clone image at its exact position
-    const clone = img.cloneNode(true) as HTMLElement;
-    clone.style.cssText = `
-      position: fixed;
-      top: ${rect.top}px;
-      left: ${rect.left}px;
-      width: ${rect.width}px;
-      height: ${rect.height}px;
-      z-index: 9999;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-    `;
-    document.body.appendChild(clone);
-
-    // Animate: fade overlay in + expand image
-    requestAnimationFrame(() => {
-      overlay.style.opacity = "1";
-      clone.style.top = "0px";
-      clone.style.left = "0px";
-      clone.style.width = "100vw";
-      clone.style.height = "60vh";
-      clone.style.borderRadius = "0px";
-    });
-
-    // Navigate after transition, cleanup happens on unmount
-    setTimeout(() => {
-      router.push(`/worlds/${world.id}`);
-    }, 450);
   };
 
   const isEven = index % 2 === 0;
@@ -94,8 +36,8 @@ export default function WorldCard({
       <m.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
-        onClick={handleClick}
-        whileTap={{ scale: 0.985 }}
+        onClick={() => router.push(`/worlds/${world.id}`)}
+        whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
         className="group relative cursor-pointer overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[border-color] duration-300 ease-out hover:border-gold/40"
       >
@@ -109,10 +51,7 @@ export default function WorldCard({
         >
           {/* Image */}
           {world.image && (
-            <div
-              ref={imgRef}
-              className="relative h-48 shrink-0 overflow-hidden sm:h-auto sm:w-2/5"
-            >
+            <div className="relative h-48 shrink-0 overflow-hidden sm:h-auto sm:w-2/5">
               <Image
                 src={world.image}
                 alt={world.imageAlt || world.title}
