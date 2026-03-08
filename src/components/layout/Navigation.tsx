@@ -45,7 +45,7 @@ export default function Navigation() {
               href="#hero"
               className="font-display text-sm font-bold tracking-wider text-bone"
             >
-              JPK
+              JPKA
             </a>
 
             {/* Desktop */}

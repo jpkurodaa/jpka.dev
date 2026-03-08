@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { NowItem } from "@/lib/supabase/types";
+import VideoEasterEgg from "./VideoEasterEgg";
 
 export const revalidate = 3600;
 
@@ -85,6 +86,9 @@ export default async function NowPage() {
           <p className="text-smoke">Loading...</p>
         )}
       </div>
+
+      {/* Easter egg */}
+      <VideoEasterEgg />
     </main>
   );
 }
