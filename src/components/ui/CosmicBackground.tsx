@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { useReducedMotion } from "@/hooks/useMediaQuery";
 
-interface Particle {
+interface Dust {
   x: number;
   y: number;
   vx: number;
@@ -11,94 +11,72 @@ interface Particle {
   size: number;
   opacity: number;
   baseOpacity: number;
-}
-
-interface Star {
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  twinkleSpeed: number;
-  twinkleOffset: number;
-}
-
-interface Planet {
-  x: number;
-  y: number;
-  radius: number;
-  color: string;
-  glowColor: string;
-  glowRadius: number;
+  layer: number; // 0 = far/dim, 1 = mid, 2 = near/bright
 }
 
 export default function CosmicBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
-  const particlesRef = useRef<Particle[]>([]);
-  const starsRef = useRef<Star[]>([]);
-  const planetsRef = useRef<Planet[]>([]);
+  const dustRef = useRef<Dust[]>([]);
   const animRef = useRef<number>(0);
-  const timeRef = useRef(0);
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
   const init = useCallback((w: number, h: number) => {
-    // Interactive gold particles
-    const particleCount = Math.min(80, Math.floor((w * h) / 20000));
-    particlesRef.current = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.2,
-      vy: (Math.random() - 0.5) * 0.2,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.4 + 0.05,
-      baseOpacity: Math.random() * 0.4 + 0.05,
-    }));
+    const dust: Dust[] = [];
 
-    // Background stars — tiny twinkling dots
-    const starCount = Math.min(200, Math.floor((w * h) / 8000));
-    starsRef.current = Array.from({ length: starCount }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      size: Math.random() * 1.2 + 0.2,
-      opacity: Math.random() * 0.6 + 0.1,
-      twinkleSpeed: Math.random() * 0.02 + 0.005,
-      twinkleOffset: Math.random() * Math.PI * 2,
-    }));
+    // Layer 0: far dust — very tiny, very faint, slow
+    const farCount = Math.min(120, Math.floor((w * h) / 12000));
+    for (let i = 0; i < farCount; i++) {
+      dust.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.05,
+        vy: (Math.random() - 0.5) * 0.05,
+        size: Math.random() * 0.8 + 0.3,
+        opacity: Math.random() * 0.12 + 0.03,
+        baseOpacity: Math.random() * 0.12 + 0.03,
+        layer: 0,
+      });
+    }
 
-    // Dwarf planets — soft glowing spheres
-    planetsRef.current = [
-      {
-        x: w * 0.85,
-        y: h * 0.15,
-        radius: 3,
-        color: "rgba(180, 160, 120, 0.15)",
-        glowColor: "rgba(201, 168, 76, 0.04)",
-        glowRadius: 30,
-      },
-      {
-        x: w * 0.12,
-        y: h * 0.7,
-        radius: 2,
-        color: "rgba(150, 140, 130, 0.12)",
-        glowColor: "rgba(170, 160, 140, 0.03)",
-        glowRadius: 20,
-      },
-      {
-        x: w * 0.55,
-        y: h * 0.4,
-        radius: 1.5,
-        color: "rgba(160, 150, 140, 0.1)",
-        glowColor: "rgba(180, 170, 150, 0.02)",
-        glowRadius: 15,
-      },
-    ];
+    // Layer 1: mid dust — small, moderate opacity
+    const midCount = Math.min(60, Math.floor((w * h) / 25000));
+    for (let i = 0; i < midCount; i++) {
+      dust.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.1,
+        vy: (Math.random() - 0.5) * 0.1,
+        size: Math.random() * 1.2 + 0.5,
+        opacity: Math.random() * 0.15 + 0.05,
+        baseOpacity: Math.random() * 0.15 + 0.05,
+        layer: 1,
+      });
+    }
+
+    // Layer 2: near dust — slightly larger, brighter, more responsive
+    const nearCount = Math.min(30, Math.floor((w * h) / 50000));
+    for (let i = 0; i < nearCount; i++) {
+      dust.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        size: Math.random() * 1.8 + 0.8,
+        opacity: Math.random() * 0.2 + 0.08,
+        baseOpacity: Math.random() * 0.2 + 0.08,
+        layer: 2,
+      });
+    }
+
+    dustRef.current = dust;
   }, []);
 
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || !mounted) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -119,112 +97,59 @@ export default function CosmicBackground() {
     window.addEventListener("mousemove", onMouse);
 
     const animate = () => {
-      timeRef.current += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw stars (twinkling)
-      for (const star of starsRef.current) {
-        const twinkle =
-          Math.sin(timeRef.current * star.twinkleSpeed + star.twinkleOffset) *
-            0.3 +
-          0.7;
-        const alpha = star.opacity * twinkle;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 215, 200, ${alpha})`;
-        ctx.fill();
-      }
-
-      // Draw planets (soft glow)
-      for (const planet of planetsRef.current) {
-        // Glow
-        const gradient = ctx.createRadialGradient(
-          planet.x,
-          planet.y,
-          0,
-          planet.x,
-          planet.y,
-          planet.glowRadius
-        );
-        gradient.addColorStop(0, planet.glowColor);
-        gradient.addColorStop(1, "transparent");
-        ctx.beginPath();
-        ctx.arc(planet.x, planet.y, planet.glowRadius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        // Core
-        ctx.beginPath();
-        ctx.arc(planet.x, planet.y, planet.radius, 0, Math.PI * 2);
-        ctx.fillStyle = planet.color;
-        ctx.fill();
-      }
-
-      // Draw interactive particles
       const { x: mx, y: my } = mouseRef.current;
 
-      // Mouse glow
+      // Subtle mouse glow
       if (mx > 0) {
-        const glowGrad = ctx.createRadialGradient(mx, my, 0, mx, my, 120);
-        glowGrad.addColorStop(0, "rgba(201, 168, 76, 0.03)");
+        const glowGrad = ctx.createRadialGradient(mx, my, 0, mx, my, 100);
+        glowGrad.addColorStop(0, "rgba(201, 168, 76, 0.025)");
         glowGrad.addColorStop(1, "transparent");
         ctx.beginPath();
-        ctx.arc(mx, my, 120, 0, Math.PI * 2);
+        ctx.arc(mx, my, 100, 0, Math.PI * 2);
         ctx.fillStyle = glowGrad;
         ctx.fill();
       }
 
-      for (const p of particlesRef.current) {
-        const dx = mx - p.x;
-        const dy = my - p.y;
+      for (const d of dustRef.current) {
+        const dx = mx - d.x;
+        const dy = my - d.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 180) {
-          const force = (180 - dist) / 180;
-          p.opacity = p.baseOpacity + force * 0.6;
-          // Gentle attraction toward mouse
-          p.vx += (dx / dist) * force * 0.008;
-          p.vy += (dy / dist) * force * 0.008;
-          // Slight orbit perpendicular push
-          p.vx += (-dy / dist) * force * 0.003;
-          p.vy += (dx / dist) * force * 0.003;
+        // Mouse interaction — stronger for nearer layers
+        const mouseRadius = 120 + d.layer * 30;
+        if (dist < mouseRadius && dist > 0) {
+          const force = (mouseRadius - dist) / mouseRadius;
+          const strength = 0.003 + d.layer * 0.003;
+          d.opacity = d.baseOpacity + force * (0.15 + d.layer * 0.1);
+          // Gentle drift toward mouse
+          d.vx += (dx / dist) * force * strength;
+          d.vy += (dy / dist) * force * strength;
         } else {
-          p.opacity += (p.baseOpacity - p.opacity) * 0.02;
+          d.opacity += (d.baseOpacity - d.opacity) * 0.015;
         }
 
-        // Draw connection lines between nearby particles near mouse
-        if (dist < 200) {
-          for (const q of particlesRef.current) {
-            if (q === p) continue;
-            const pdx = q.x - p.x;
-            const pdy = q.y - p.y;
-            const pdist = Math.sqrt(pdx * pdx + pdy * pdy);
-            if (pdist < 80) {
-              const lineAlpha = ((80 - pdist) / 80) * 0.08;
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = `rgba(201, 168, 76, ${lineAlpha})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
+        d.x += d.vx;
+        d.y += d.vy;
 
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= 0.995;
-        p.vy *= 0.995;
+        // Damping — far dust moves slower
+        const damping = 0.997 - d.layer * 0.001;
+        d.vx *= damping;
+        d.vy *= damping;
 
-        // Wrap around full page height
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        // Wrap
+        if (d.x < -10) d.x = canvas.width + 10;
+        if (d.x > canvas.width + 10) d.x = -10;
+        if (d.y < -10) d.y = canvas.height + 10;
+        if (d.y > canvas.height + 10) d.y = -10;
 
+        // Draw — warm gold tones with slight color variation per layer
+        const r = 201 - d.layer * 10;
+        const g = 168 - d.layer * 8;
+        const b = 76 + d.layer * 15;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(201, 168, 76, ${p.opacity})`;
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${d.opacity})`;
         ctx.fill();
       }
 
@@ -237,14 +162,14 @@ export default function CosmicBackground() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouse);
     };
-  }, [reducedMotion, init]);
+  }, [reducedMotion, mounted, init]);
 
   if (reducedMotion || !mounted) return null;
 
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-0"
+      className="pointer-events-none fixed inset-0 z-[1]"
       aria-hidden="true"
     />
   );

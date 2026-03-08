@@ -56,7 +56,7 @@ export default function RootLayout({
         </a>
         <CosmicBackground />
         <MotionProvider>
-          <div className="relative z-[1]">{children}</div>
+          <div className="relative z-[2]">{children}</div>
         </MotionProvider>
       </body>
     </html>
