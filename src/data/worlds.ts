@@ -4,6 +4,8 @@ export interface World {
   subtitle: string;
   description: string;
   icon: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 export const WORLDS: World[] = [
@@ -14,6 +16,8 @@ export const WORLDS: World[] = [
     description:
       "Leading Kuroda's digital transformation. E-commerce, supply chains, and the systems that move physical goods through digital channels.",
     icon: "⚡",
+    image: "/images/jp-profile.jpg",
+    imageAlt: "JP Kuroda at Kuroda headquarters",
   },
   {
     id: "speak",
@@ -22,6 +26,8 @@ export const WORLDS: World[] = [
     description:
       "Turning complex ideas into clear stories. From boardroom strategy to public talks — language as a tool for change.",
     icon: "🎙",
+    image: "/images/jp-ammje.jpg",
+    imageAlt: "JP Kuroda speaking at AMMJE conference",
   },
   {
     id: "think",
@@ -30,6 +36,8 @@ export const WORLDS: World[] = [
     description:
       "Reading, writing, and questioning everything. Where business strategy meets existential inquiry and first-principles thinking.",
     icon: "🧠",
+    image: "/images/jp-ayahuasca.jpg",
+    imageAlt: "JP Kuroda at a spiritual retreat in the jungle",
   },
   {
     id: "create",

@@ -19,6 +19,7 @@ export const SOCIAL_LINKS = {
   linkedin: "https://linkedin.com/in/jpkuroda",
   github: "https://github.com/jpkuroda",
   twitter: "https://x.com/jpkuroda",
+  instagram: "https://instagram.com/jpkuroda",
   email: "mailto:jp@jpka.dev",
 } as const;
 

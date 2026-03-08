@@ -14,6 +14,7 @@ const QUOTES = [
 
 const SOCIALS = [
   { name: "LinkedIn", href: SOCIAL_LINKS.linkedin },
+  { name: "Instagram", href: SOCIAL_LINKS.instagram },
   { name: "GitHub", href: SOCIAL_LINKS.github },
   { name: "X / Twitter", href: SOCIAL_LINKS.twitter },
 ];
