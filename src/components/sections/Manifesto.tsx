@@ -17,7 +17,7 @@ export default function Manifesto() {
   const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <SectionWrapper id={SECTIONS.manifesto} className="py-32 sm:py-40">
+    <SectionWrapper id={SECTIONS.manifesto} className="py-20 sm:py-28">
       <div className="grid items-center gap-16 lg:grid-cols-2">
         <div className="max-w-xl">
           <AnimatedText

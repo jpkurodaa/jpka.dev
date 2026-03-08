@@ -31,7 +31,7 @@ export default function Connect() {
   }, []);
 
   return (
-    <SectionWrapper id={SECTIONS.connect} className="py-32 sm:py-40">
+    <SectionWrapper id={SECTIONS.connect} className="py-20 sm:py-28">
       <div className="text-center">
         {/* Rotating quote */}
         <div className="relative mx-auto h-[3em] max-w-2xl overflow-hidden">

@@ -7,7 +7,7 @@ import WorldCard from "@/components/sections/WorldCard";
 
 export default function Worlds() {
   return (
-    <SectionWrapper id={SECTIONS.worlds} className="py-32 sm:py-40">
+    <SectionWrapper id={SECTIONS.worlds} className="py-20 sm:py-28">
       <h2 className="font-display text-3xl font-bold sm:text-4xl lg:text-5xl">
         Worlds I Inhabit
       </h2>

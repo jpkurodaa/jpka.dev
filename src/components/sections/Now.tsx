@@ -47,7 +47,7 @@ export default function Now({ data }: { data: Record<string, string[]> }) {
   const categories = Object.keys(data);
 
   return (
-    <SectionWrapper id={SECTIONS.now} className="py-32 sm:py-40">
+    <SectionWrapper id={SECTIONS.now} className="py-20 sm:py-28">
       <h2 className="font-display text-3xl font-bold sm:text-4xl lg:text-5xl">
         Now
       </h2>

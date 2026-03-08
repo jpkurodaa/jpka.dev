@@ -8,7 +8,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 
 export default function Timeline() {
   return (
-    <SectionWrapper id={SECTIONS.timeline} className="py-32 sm:py-40">
+    <SectionWrapper id={SECTIONS.timeline} className="py-20 sm:py-28">
       <h2 className="font-display text-3xl font-bold sm:text-4xl lg:text-5xl">
         The Path
       </h2>
