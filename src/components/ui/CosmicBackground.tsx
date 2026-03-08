@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useMediaQuery";
 
 interface Dust {
@@ -9,9 +9,8 @@ interface Dust {
   vx: number;
   vy: number;
   size: number;
-  opacity: number;
   baseOpacity: number;
-  layer: number;
+  opacity: number;
 }
 
 export default function CosmicBackground() {
@@ -19,63 +18,10 @@ export default function CosmicBackground() {
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const dustRef = useRef<Dust[]>([]);
   const animRef = useRef<number>(0);
-  const pageHeightRef = useRef(0);
   const reducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
-
-  const populate = useCallback((w: number, pageH: number) => {
-    const dust: Dust[] = [];
-    const density = w * pageH;
-
-    // Far dust — tiny, faint, static feel
-    const farCount = Math.min(500, Math.floor(density / 5000));
-    for (let i = 0; i < farCount; i++) {
-      dust.push({
-        x: Math.random() * w,
-        y: Math.random() * pageH,
-        vx: 0,
-        vy: 0,
-        size: Math.random() * 0.8 + 0.3,
-        opacity: Math.random() * 0.12 + 0.03,
-        baseOpacity: Math.random() * 0.12 + 0.03,
-        layer: 0,
-      });
-    }
-
-    // Mid dust
-    const midCount = Math.min(250, Math.floor(density / 12000));
-    for (let i = 0; i < midCount; i++) {
-      dust.push({
-        x: Math.random() * w,
-        y: Math.random() * pageH,
-        vx: 0,
-        vy: 0,
-        size: Math.random() * 1.2 + 0.5,
-        opacity: Math.random() * 0.15 + 0.05,
-        baseOpacity: Math.random() * 0.15 + 0.05,
-        layer: 1,
-      });
-    }
-
-    // Near dust — larger, brighter
-    const nearCount = Math.min(100, Math.floor(density / 30000));
-    for (let i = 0; i < nearCount; i++) {
-      dust.push({
-        x: Math.random() * w,
-        y: Math.random() * pageH,
-        vx: 0,
-        vy: 0,
-        size: Math.random() * 1.8 + 0.8,
-        opacity: Math.random() * 0.2 + 0.08,
-        baseOpacity: Math.random() * 0.2 + 0.08,
-        layer: 2,
-      });
-    }
-
-    dustRef.current = dust;
-  }, []);
 
   useEffect(() => {
     if (reducedMotion || !mounted) return;
@@ -85,26 +31,33 @@ export default function CosmicBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const measure = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const newPageH = Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-      if (Math.abs(newPageH - pageHeightRef.current) > 200) {
-        pageHeightRef.current = newPageH;
-        populate(canvas.width, newPageH);
-      }
+    const init = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+
+      const count = Math.min(180, Math.floor((w * h) / 8000));
+      dustRef.current = Array.from({ length: count }, () => {
+        const layer = Math.random();
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          size: layer < 0.6 ? Math.random() * 0.8 + 0.3
+              : layer < 0.85 ? Math.random() * 1.3 + 0.5
+              : Math.random() * 2 + 0.8,
+          baseOpacity: layer < 0.6 ? Math.random() * 0.1 + 0.02
+                     : layer < 0.85 ? Math.random() * 0.15 + 0.05
+                     : Math.random() * 0.25 + 0.08,
+          opacity: 0,
+        };
+      });
+      for (const d of dustRef.current) d.opacity = d.baseOpacity;
     };
-    measure();
-
-    const observer = new MutationObserver(() => {
-      requestAnimationFrame(measure);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    window.addEventListener("resize", measure);
+    init();
+    window.addEventListener("resize", init);
 
     const onMouse = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -113,66 +66,59 @@ export default function CosmicBackground() {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Read scroll directly — no event lag
-      const scroll = window.scrollY;
-      const vw = canvas.width;
-      const vh = canvas.height;
       const { x: mx, y: my } = mouseRef.current;
-      const mwy = my + scroll;
+      const w = canvas.width;
+      const h = canvas.height;
 
-      // Subtle mouse glow
+      // Mouse glow
       if (mx > 0) {
-        const glowGrad = ctx.createRadialGradient(mx, my, 0, mx, my, 100);
-        glowGrad.addColorStop(0, "rgba(201, 168, 76, 0.025)");
-        glowGrad.addColorStop(1, "transparent");
+        const g = ctx.createRadialGradient(mx, my, 0, mx, my, 90);
+        g.addColorStop(0, "rgba(201, 168, 76, 0.03)");
+        g.addColorStop(1, "transparent");
         ctx.beginPath();
-        ctx.arc(mx, my, 100, 0, Math.PI * 2);
-        ctx.fillStyle = glowGrad;
+        ctx.arc(mx, my, 90, 0, Math.PI * 2);
+        ctx.fillStyle = g;
         ctx.fill();
       }
 
-      const margin = 50;
-
       for (const d of dustRef.current) {
-        const sy = d.y - scroll;
-
-        if (sy < -margin || sy > vh + margin) continue;
-
         // Mouse interaction
         const dx = mx - d.x;
-        const dy = mwy - d.y;
+        const dy = my - d.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        const mouseRadius = 120 + d.layer * 30;
-        if (dist < mouseRadius && dist > 0) {
-          const force = (mouseRadius - dist) / mouseRadius;
-          const strength = 0.003 + d.layer * 0.003;
-          d.opacity = d.baseOpacity + force * (0.15 + d.layer * 0.1);
-          d.vx += (dx / dist) * force * strength;
-          d.vy += (dy / dist) * force * strength;
+        if (dist < 150 && dist > 0) {
+          const force = (150 - dist) / 150;
+          d.opacity = d.baseOpacity + force * 0.35;
+          // Push away from mouse
+          d.vx -= (dx / dist) * force * 0.15;
+          d.vy -= (dy / dist) * force * 0.15;
         } else {
-          d.opacity += (d.baseOpacity - d.opacity) * 0.015;
+          d.opacity += (d.baseOpacity - d.opacity) * 0.03;
         }
 
-        // Only apply velocity from mouse interaction, not drift
+        // Drift
         d.x += d.vx;
         d.y += d.vy;
 
-        // Strong damping — particles settle back quickly
-        d.vx *= 0.96;
-        d.vy *= 0.96;
+        // Damping — slow return to gentle drift
+        d.vx *= 0.98;
+        d.vy *= 0.98;
 
-        // Wrap horizontally
-        if (d.x < -10) d.x = vw + 10;
-        if (d.x > vw + 10) d.x = -10;
+        // Add tiny random drift so they never fully stop
+        d.vx += (Math.random() - 0.5) * 0.008;
+        d.vy += (Math.random() - 0.5) * 0.008;
 
-        const r = 201 - d.layer * 10;
-        const g = 168 - d.layer * 8;
-        const b = 76 + d.layer * 15;
+        // Wrap edges
+        if (d.x < -5) d.x = w + 5;
+        if (d.x > w + 5) d.x = -5;
+        if (d.y < -5) d.y = h + 5;
+        if (d.y > h + 5) d.y = -5;
+
+        // Draw
         ctx.beginPath();
-        ctx.arc(d.x, sy, d.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${d.opacity})`;
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 168, 76, ${d.opacity})`;
         ctx.fill();
       }
 
@@ -182,11 +128,10 @@ export default function CosmicBackground() {
 
     return () => {
       cancelAnimationFrame(animRef.current);
-      observer.disconnect();
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", init);
       window.removeEventListener("mousemove", onMouse);
     };
-  }, [reducedMotion, mounted, populate]);
+  }, [reducedMotion, mounted]);
 
   if (reducedMotion || !mounted) return null;
 
