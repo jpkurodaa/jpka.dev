@@ -35,7 +35,7 @@ export default function WorldCard({
     >
       {/* Background image */}
       {world.image && (
-        <div className="relative h-40 overflow-hidden">
+        <div className="relative h-56 overflow-hidden">
           <Image
             src={world.image}
             alt={world.imageAlt || world.title}
@@ -43,7 +43,7 @@ export default function WorldCard({
             sizes="(max-width: 640px) 100vw, 50vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-void/40 to-void" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-50% to-void" />
         </div>
       )}
 
