@@ -39,25 +39,25 @@ export default function VideoEasterEgg() {
           }}
         >
           <div
-            className="relative w-full max-w-3xl px-4 animate-[scaleIn_0.4s_ease-out]"
+            className="relative w-full max-w-3xl max-h-[85vh] px-6 animate-[scaleIn_0.4s_ease-out]"
             onClick={(e) => e.stopPropagation()}
           >
-            <video
-              ref={videoRef}
-              src={VIDEO_URL}
-              controls
-              playsInline
-              className="w-full rounded-xl shadow-2xl shadow-gold/10"
-            />
             <button
               onClick={() => {
                 if (videoRef.current) videoRef.current.pause();
                 setOpen(false);
               }}
-              className="absolute -top-10 right-4 text-sm text-smoke transition-colors hover:text-gold"
+              className="mb-4 text-sm text-smoke transition-colors hover:text-gold"
             >
-              Close
+              &times; Close
             </button>
+            <video
+              ref={videoRef}
+              src={VIDEO_URL}
+              controls
+              playsInline
+              className="max-h-[75vh] w-full rounded-xl object-contain shadow-2xl shadow-gold/10"
+            />
           </div>
         </div>
       )}

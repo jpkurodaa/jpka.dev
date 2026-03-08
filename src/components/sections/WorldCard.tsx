@@ -35,6 +35,9 @@ export default function WorldCard({
         onMouseMove={handleMouseMove}
         className="relative overflow-hidden rounded-2xl border border-ash bg-ash/30 transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
       >
+        {/* Glow effect — covers entire card */}
+        <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
+
         {/* Background image */}
         {world.image && (
           <div className="relative h-72 overflow-hidden">
@@ -50,9 +53,6 @@ export default function WorldCard({
         )}
 
         <div className="relative p-8">
-          {/* Glow effect */}
-          <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
-
           <span className="text-3xl" role="img" aria-label={world.title}>
             {world.icon}
           </span>
