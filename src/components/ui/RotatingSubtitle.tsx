@@ -1,22 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { AnimatePresence, m } from "framer-motion";
 
-const ROLES = ["Speaker", "Artist", "Builder", "Philosopher"];
-const INTERVAL = 3000;
+export const ROLES = ["Speaker", "Artist", "Builder", "Philosopher"];
 
-export default function RotatingSubtitle() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(
-      () => setIndex((i) => (i + 1) % ROLES.length),
-      INTERVAL
-    );
-    return () => clearInterval(timer);
-  }, []);
-
+export default function RotatingSubtitle({ index }: { index: number }) {
   return (
     <span className="relative inline-block h-[1.3em] w-[280px] sm:w-[320px] overflow-hidden align-bottom">
       <AnimatePresence mode="wait">

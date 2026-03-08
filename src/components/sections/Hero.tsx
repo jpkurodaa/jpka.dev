@@ -1,8 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { m } from "framer-motion";
-import RotatingSubtitle from "@/components/ui/RotatingSubtitle";
+import Image from "next/image";
+import { m, AnimatePresence } from "framer-motion";
+import RotatingSubtitle, { ROLES } from "@/components/ui/RotatingSubtitle";
 import { SECTIONS } from "@/lib/constants";
 
 const ParticleField = dynamic(
@@ -10,12 +12,57 @@ const ParticleField = dynamic(
   { ssr: false }
 );
 
+const ROLE_IMAGES: Record<string, string> = {
+  Speaker: "/images/jp-ammje.jpg",
+  Artist: "/images/jp-art-immersive.jpg",
+  Builder: "/images/jp-profile.jpg",
+  Philosopher: "/images/jp-ayahuasca.jpg",
+};
+
+const INTERVAL = 3000;
+
 export default function Hero() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(
+      () => setIndex((i) => (i + 1) % ROLES.length),
+      INTERVAL
+    );
+    return () => clearInterval(timer);
+  }, []);
+
+  const currentRole = ROLES[index];
+
   return (
     <section
       id={SECTIONS.hero}
       className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden"
     >
+      {/* Crossfading background images */}
+      <AnimatePresence mode="popLayout">
+        <m.div
+          key={currentRole}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          className="absolute inset-0 z-0"
+        >
+          <Image
+            src={ROLE_IMAGES[currentRole]}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority={index === 0}
+          />
+          {/* Vignette overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--void)_80%)]" />
+          <div className="absolute inset-0 bg-void/40" />
+        </m.div>
+      </AnimatePresence>
+
       <ParticleField />
 
       <div className="relative z-10 text-center">
@@ -34,7 +81,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-6 font-display text-xl sm:text-2xl lg:text-3xl text-smoke"
         >
-          <RotatingSubtitle />
+          <RotatingSubtitle index={index} />
         </m.p>
       </div>
 
