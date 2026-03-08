@@ -1,16 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 import RotatingSubtitle, { ROLES } from "@/components/ui/RotatingSubtitle";
 import { SECTIONS } from "@/lib/constants";
-
-const ParticleField = dynamic(
-  () => import("@/components/ui/ParticleField"),
-  { ssr: false }
-);
 
 const ROLE_IMAGES: Record<string, string> = {
   Speaker: "/images/jp-ammje.jpg",
@@ -62,8 +56,6 @@ export default function Hero() {
           <div className="absolute inset-0 bg-void/40" />
         </m.div>
       </AnimatePresence>
-
-      <ParticleField />
 
       <div className="relative z-10 text-center">
         <m.h1

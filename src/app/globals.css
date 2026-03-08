@@ -30,6 +30,20 @@ body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
+/* Cosmic nebula layer — subtle deep space gradients */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 800px 600px at 15% 20%, rgba(30, 20, 50, 0.4), transparent),
+    radial-gradient(ellipse 600px 500px at 85% 75%, rgba(20, 25, 45, 0.3), transparent),
+    radial-gradient(ellipse 400px 300px at 50% 50%, rgba(40, 30, 20, 0.15), transparent),
+    radial-gradient(ellipse 300px 200px at 70% 15%, rgba(50, 35, 20, 0.1), transparent);
+}
+
 ::selection {
   background: var(--gold);
   color: var(--void);

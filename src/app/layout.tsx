@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import MotionProvider from "@/components/providers/MotionProvider";
+import CosmicBackground from "@/components/ui/CosmicBackground";
 import { SITE } from "@/lib/constants";
 import "./globals.css";
 
@@ -53,7 +54,10 @@ export default function RootLayout({
         <a href="#main" className="skip-to-content">
           Skip to content
         </a>
-        <MotionProvider>{children}</MotionProvider>
+        <CosmicBackground />
+        <MotionProvider>
+          <div className="relative z-[1]">{children}</div>
+        </MotionProvider>
       </body>
     </html>
   );
