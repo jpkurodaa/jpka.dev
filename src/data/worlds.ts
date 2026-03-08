@@ -68,13 +68,6 @@ export const WORLDS: World[] = [
         caption:
           "Corporate retreat with the leadership team. Strategy is a team sport.",
       },
-      {
-        type: "image",
-        src: "/images/interceramic.jpg",
-        alt: "JP Kuroda with the Interceramic team",
-        caption:
-          "Before Kuroda Online — running an Interceramic franchise and learning retail operations from the inside.",
-      },
     ],
   },
   {
@@ -123,13 +116,6 @@ export const WORLDS: World[] = [
         alt: "JP Kuroda at W Radio studio",
         caption:
           "At W Radio — bringing business stories to a different kind of audience.",
-      },
-      {
-        type: "image",
-        src: "/images/jp-conference-speaker.jpg",
-        alt: "JP Kuroda at a speaking conference",
-        caption:
-          "At a conference on making yourself heard. The irony isn't lost on me.",
       },
     ],
   },
@@ -180,13 +166,6 @@ export const WORLDS: World[] = [
         caption:
           "At a Gurdwara — exploring faith traditions far from home. Every culture holds a piece of the answer.",
       },
-      {
-        type: "image",
-        src: "/images/jp-bridge.jpg",
-        alt: "JP Kuroda on a bridge, contemplative",
-        caption:
-          "Between worlds. The spaces in between are where the real thinking happens.",
-      },
     ],
   },
   {
@@ -235,13 +214,6 @@ export const WORLDS: World[] = [
         alt: "Artistic portrait of JP Kuroda",
         caption:
           "A portrait that captures more than a headshot ever could.",
-      },
-      {
-        type: "image",
-        src: "/images/jp-portrait-artistic.jpg",
-        alt: "JP Kuroda artistic portrait",
-        caption:
-          "Self-expression through image — sometimes the most honest thing is to just stand still.",
       },
     ],
   },

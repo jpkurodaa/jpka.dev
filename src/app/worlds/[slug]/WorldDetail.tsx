@@ -11,26 +11,27 @@ function MediaCard({ item, index }: { item: MediaItem; index: number }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 + index * 0.12 }}
-      className={item.type === "video" ? "sm:col-span-2" : ""}
+      className="mb-8 break-inside-avoid"
     >
       <div className="group">
         {item.type === "image" ? (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+          <div className="overflow-hidden rounded-xl">
             <Image
               src={item.src}
               alt={item.alt}
-              fill
+              width={800}
+              height={800}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
         ) : (
-          <div className="relative aspect-video overflow-hidden rounded-xl">
+          <div className="overflow-hidden rounded-xl">
             <video
               src={item.src}
               controls
               playsInline
-              className="h-full w-full object-cover"
+              className="w-full h-auto"
             />
           </div>
         )}
@@ -142,8 +143,8 @@ export default function WorldDetail({ world }: { world: World }) {
           className="my-16 h-px origin-left bg-gradient-to-r from-gold/50 to-transparent"
         />
 
-        {/* Media gallery */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Media gallery — masonry */}
+        <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
           {world.media.map((item, i) => (
             <MediaCard key={item.src} item={item} index={i} />
           ))}
