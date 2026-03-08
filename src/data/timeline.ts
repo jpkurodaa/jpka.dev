@@ -27,18 +27,12 @@ export const TIMELINE: TimelineEvent[] = [
     imageAlt: "JP Kuroda with the Interceramic team",
   },
   {
-    year: "2021",
+    year: "2024",
     title: "Kuroda Online",
     description:
-      "Took the helm of Kuroda's digital channel. Built the e-commerce operation from scratch.",
+      "Became Director of Kuroda's digital channel. Learned Adobe Commerce hands-on, grew revenue 300% YoY, and built the omnichannel experience customers now rely on.",
     image: "/images/kuroda-team.jpg",
     imageAlt: "JP Kuroda with the Kuroda team",
-  },
-  {
-    year: "2024",
-    title: "Digital Transformation",
-    description:
-      "Scaling Kuroda.com — SAP integrations, Adobe Commerce, omnichannel strategy.",
   },
   {
     year: "2026",
