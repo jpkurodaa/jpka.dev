@@ -36,7 +36,7 @@ export default function WorldCard({
         className="relative overflow-hidden rounded-2xl border border-ash bg-ash/30 will-change-transform transition-[transform,border-color] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/40"
       >
         {/* Glow effect — covers entire card */}
-        <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
+        <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
 
         {/* Background image */}
         {world.image && (
