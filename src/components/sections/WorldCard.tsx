@@ -30,12 +30,11 @@ export default function WorldCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      whileHover={{ y: -4 }}
-      className="group relative overflow-hidden rounded-2xl border border-ash bg-ash/30 transition-colors hover:border-gold/40"
+      className="group relative overflow-hidden rounded-2xl border border-ash bg-ash/30 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40"
     >
       {/* Background image */}
       {world.image && (
-        <div className="relative h-56 overflow-hidden">
+        <div className="relative h-72 overflow-hidden">
           <Image
             src={world.image}
             alt={world.imageAlt || world.title}
@@ -43,7 +42,7 @@ export default function WorldCard({
             sizes="(max-width: 640px) 100vw, 50vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-50% to-void" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent via-60% to-void" />
         </div>
       )}
 
