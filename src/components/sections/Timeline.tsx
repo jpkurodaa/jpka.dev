@@ -22,50 +22,45 @@ export default function Timeline() {
 
         <div className="space-y-12">
           {TIMELINE.map((event, i) => (
-            <m.div
-              key={event.year}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className={`relative flex flex-col pl-12 sm:w-1/2 sm:pl-0 ${
-                i % 2 === 0
-                  ? "sm:pr-12 sm:text-right"
-                  : "sm:ml-auto sm:pl-12"
-              }`}
-            >
-              {/* Node */}
-              <div
-                className={`absolute top-1 left-2.5 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-auto ${
+            <div key={event.year} className="relative">
+              {/* Node — outside animated div so it always sits on the gold line */}
+              <div className="absolute top-1 left-4 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-1/2 sm:-translate-x-1/2 z-10" />
+
+              <m.div
+                initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className={`pl-12 sm:w-1/2 sm:pl-0 ${
                   i % 2 === 0
-                    ? "sm:right-[-6.5px]"
-                    : "sm:left-[-6.5px]"
+                    ? "sm:pr-12 sm:text-right"
+                    : "sm:ml-auto sm:pl-12"
                 }`}
-              />
+              >
+                <span className="text-sm font-bold tracking-wider text-gold">
+                  {event.year}
+                </span>
+                <h3 className="mt-1 font-display text-lg font-semibold text-bone">
+                  {event.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-smoke">
+                  {event.description}
+                </p>
 
-              <span className="text-sm font-bold tracking-wider text-gold">
-                {event.year}
-              </span>
-              <h3 className="mt-1 font-display text-lg font-semibold text-bone">
-                {event.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-smoke">
-                {event.description}
-              </p>
-
-              {event.image && (
-                <div className="relative mt-4 aspect-video overflow-hidden rounded-lg">
-                  <Image
-                    src={event.image}
-                    alt={event.imageAlt || event.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
-                </div>
-              )}
-            </m.div>
+                {event.image && (
+                  <div className="relative mt-4 aspect-video overflow-hidden rounded-lg">
+                    <Image
+                      src={event.image}
+                      alt={event.imageAlt || event.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-void/40 to-transparent" />
+                  </div>
+                )}
+              </m.div>
+            </div>
           ))}
         </div>
       </div>
