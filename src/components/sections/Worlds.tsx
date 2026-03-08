@@ -16,7 +16,7 @@ export default function Worlds() {
         others.
       </p>
 
-      <div className="mt-16 grid gap-6 sm:grid-cols-2">
+      <div className="mt-16 grid gap-5">
         {WORLDS.map((world, i) => (
           <WorldCard key={world.id} world={world} index={i} />
         ))}
