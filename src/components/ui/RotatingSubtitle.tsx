@@ -13,7 +13,7 @@ export default function RotatingSubtitle({ index }: { index: number }) {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -30, opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className="absolute left-0 text-gold"
         >
           {ROLES[index]}

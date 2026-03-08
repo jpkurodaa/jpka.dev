@@ -19,7 +19,7 @@ const ROLE_IMAGES: Record<string, string> = {
   Philosopher: "/images/jp-ayahuasca.jpg",
 };
 
-const INTERVAL = 3000;
+const INTERVAL = 2000;
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
@@ -46,7 +46,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.15 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
           className="absolute inset-0 z-0"
         >
           <Image
