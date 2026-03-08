@@ -17,6 +17,9 @@ export interface World {
   media: MediaItem[];
 }
 
+const STORAGE_URL =
+  "https://moizuchvvckkbvvibems.supabase.co/storage/v1/object/public/media";
+
 export const WORLDS: World[] = [
   {
     id: "build",
@@ -32,24 +35,45 @@ export const WORLDS: World[] = [
     media: [
       {
         type: "image",
-        src: "/images/jp-profile.jpg",
-        alt: "JP Kuroda at Kuroda headquarters",
+        src: "/images/jp-kuroda-crowd.jpg",
+        alt: "JP Kuroda selfie with the full Kuroda team",
         caption:
-          "At Kuroda HQ in Hermosillo — where 70 years of plumbing expertise meets digital commerce.",
+          "The whole Kuroda family — 100+ people building something that's been alive for 70 years.",
       },
       {
         type: "image",
-        src: "/images/kuroda-team.jpg",
-        alt: "JP Kuroda with the Kuroda team",
+        src: "/images/jp-profile.jpg",
+        alt: "JP Kuroda at Kuroda headquarters",
         caption:
-          "The team that makes it happen. Building an omnichannel operation is a team sport.",
+          "At Kuroda HQ in Hermosillo — where decades of plumbing expertise meet digital commerce.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-kuroda-site.jpg",
+        alt: "kuroda.com e-commerce platform on screen",
+        caption:
+          "kuroda.com — the digital channel I direct. Adobe Commerce, SAP HANA, and a lot of lessons learned the hard way.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-salesforce.jpg",
+        alt: "JP Kuroda at a tech conference with Salesforce mascot",
+        caption:
+          "At a tech expo — always looking for the next integration, the next tool, the next edge.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-corporate-team.jpg",
+        alt: "JP Kuroda with the corporate team at a retreat",
+        caption:
+          "Corporate retreat with the leadership team. Strategy is a team sport.",
       },
       {
         type: "image",
         src: "/images/interceramic.jpg",
         alt: "JP Kuroda with the Interceramic team",
         caption:
-          "Before Kuroda Online — running an Interceramic franchise and learning retail from the inside.",
+          "Before Kuroda Online — running an Interceramic franchise and learning retail operations from the inside.",
       },
     ],
   },
@@ -66,6 +90,20 @@ export const WORLDS: World[] = [
       "I believe the most important skill in business isn't technical — it's the ability to communicate a complex idea simply. Whether I'm on stage at AMMJE, presenting strategy to the board, or explaining Adobe Commerce architecture to the dev team, the challenge is the same: make the invisible visible. Speaking isn't performance — it's translation. Taking what lives in your head and making it live in someone else's.",
     media: [
       {
+        type: "video",
+        src: `${STORAGE_URL}/jp-speech-1.mp4`,
+        alt: "JP Kuroda speaking on stage",
+        caption:
+          "On stage — where complex ideas get compressed into moments of clarity.",
+      },
+      {
+        type: "video",
+        src: `${STORAGE_URL}/jp-speech-2.mp4`,
+        alt: "JP Kuroda delivering a presentation",
+        caption:
+          "Every talk is a chance to make the invisible visible. Language as a tool for change.",
+      },
+      {
         type: "image",
         src: "/images/jp-ammje.jpg",
         alt: "JP Kuroda speaking at AMMJE conference",
@@ -77,7 +115,21 @@ export const WORLDS: World[] = [
         src: "/images/jp-speaking.jpg",
         alt: "JP Kuroda presenting on stage",
         caption:
-          "Every talk is a chance to compress months of learning into minutes of clarity.",
+          "Turning months of learning into minutes of clarity.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-radio-studio.jpg",
+        alt: "JP Kuroda at W Radio studio",
+        caption:
+          "At W Radio — bringing business stories to a different kind of audience.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-conference-speaker.jpg",
+        alt: "JP Kuroda at a speaking conference",
+        caption:
+          "At a conference on making yourself heard. The irony isn't lost on me.",
       },
     ],
   },
@@ -95,6 +147,13 @@ export const WORLDS: World[] = [
     media: [
       {
         type: "image",
+        src: "/images/jp-mountain-summit.jpg",
+        alt: "JP Kuroda standing on a mountain summit",
+        caption:
+          "On top of the world — some perspectives only come from climbing.",
+      },
+      {
+        type: "image",
         src: "/images/jp-ayahuasca.jpg",
         alt: "JP Kuroda at a spiritual retreat",
         caption:
@@ -102,10 +161,31 @@ export const WORLDS: World[] = [
       },
       {
         type: "image",
+        src: "/images/jp-hobbiton-bridge.jpg",
+        alt: "JP Kuroda on a bridge in a lush green landscape",
+        caption:
+          "New Zealand — walking through stories. The best ideas come from wandering.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-waterfall.jpg",
+        alt: "JP Kuroda at a waterfall in nature",
+        caption:
+          "Standing before forces bigger than yourself. A good reminder of scale.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-sikh-temple.jpg",
+        alt: "JP Kuroda visiting a Sikh temple",
+        caption:
+          "At a Gurdwara — exploring faith traditions far from home. Every culture holds a piece of the answer.",
+      },
+      {
+        type: "image",
         src: "/images/jp-bridge.jpg",
         alt: "JP Kuroda on a bridge, contemplative",
         caption:
-          "Between worlds. The best ideas come from the spaces in between.",
+          "Between worlds. The spaces in between are where the real thinking happens.",
       },
     ],
   },
@@ -130,17 +210,38 @@ export const WORLDS: World[] = [
       },
       {
         type: "image",
+        src: "/images/jp-immersive-cosmos.jpg",
+        alt: "JP Kuroda surrounded by cosmic projections in an immersive installation",
+        caption:
+          "Surrounded by the cosmos — digital art that makes you feel infinitely small and completely alive.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-theater-bw.jpg",
+        alt: "JP Kuroda performing on a theater stage in black and white",
+        caption:
+          "On stage in a theater production. The unedited, the unrepeatable — art that only exists in the moment.",
+      },
+      {
+        type: "image",
         src: "/images/jp-teatro.jpg",
         alt: "JP Kuroda at the theater",
         caption:
-          "Theater, live performance, the unedited. Art that only exists in the moment.",
+          "Theater, live performance, the raw. A counterweight to the digital world.",
+      },
+      {
+        type: "image",
+        src: "/images/jp-artist-portrait.jpg",
+        alt: "Artistic portrait of JP Kuroda",
+        caption:
+          "A portrait that captures more than a headshot ever could.",
       },
       {
         type: "image",
         src: "/images/jp-portrait-artistic.jpg",
-        alt: "Artistic portrait of JP Kuroda",
+        alt: "JP Kuroda artistic portrait",
         caption:
-          "Self-expression through visual art — a portrait that captures more than a headshot ever could.",
+          "Self-expression through image — sometimes the most honest thing is to just stand still.",
       },
     ],
   },

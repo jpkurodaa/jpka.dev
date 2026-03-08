@@ -11,10 +11,11 @@ function MediaCard({ item, index }: { item: MediaItem; index: number }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 + index * 0.12 }}
+      className={item.type === "video" ? "sm:col-span-2" : ""}
     >
-      <div className="group overflow-hidden rounded-xl border border-ash/50 bg-ash/20 transition-colors hover:border-gold/30">
+      <div className="group">
         {item.type === "image" ? (
-          <div className="relative aspect-[4/3] overflow-hidden">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
               src={item.src}
               alt={item.alt}
@@ -24,7 +25,7 @@ function MediaCard({ item, index }: { item: MediaItem; index: number }) {
             />
           </div>
         ) : (
-          <div className="relative aspect-video overflow-hidden">
+          <div className="relative aspect-video overflow-hidden rounded-xl">
             <video
               src={item.src}
               controls
@@ -33,7 +34,7 @@ function MediaCard({ item, index }: { item: MediaItem; index: number }) {
             />
           </div>
         )}
-        <p className="p-4 text-sm leading-relaxed text-smoke">
+        <p className="mt-3 px-1 text-sm italic leading-relaxed text-smoke/70">
           {item.caption}
         </p>
       </div>
