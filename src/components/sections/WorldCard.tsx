@@ -59,10 +59,16 @@ export default function WorldCard({
                 sizes="(max-width: 640px) 100vw, 40vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
+              {/* Gradient fade — bottom on mobile, toward content on desktop */}
               <div
-                className={`absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r ${
-                  !isEven ? "sm:bg-gradient-to-l" : ""
-                } from-transparent to-ash/30`}
+                className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(42,42,42,0.85)] sm:bg-none`}
+              />
+              <div
+                className={`absolute inset-0 hidden sm:block ${
+                  isEven
+                    ? "bg-gradient-to-r from-transparent via-[rgba(42,42,42,0.4)] to-[rgba(42,42,42,0.95)]"
+                    : "bg-gradient-to-l from-transparent via-[rgba(42,42,42,0.4)] to-[rgba(42,42,42,0.95)]"
+                }`}
               />
             </div>
           )}
