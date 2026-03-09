@@ -25,10 +25,10 @@ export default function Timeline() {
             <div key={event.year} className="relative">
               {/* Node — outside animated div so it always sits on the gold line */}
               <m.div
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
                 className="absolute top-1 left-4 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-1/2 sm:-translate-x-1/2 z-10"
               />
 
