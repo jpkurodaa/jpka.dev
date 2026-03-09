@@ -29,7 +29,7 @@ export default function Timeline() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="absolute top-1 left-4 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-1/2 sm:-translate-x-1/2 z-10"
+                className="absolute top-1 left-4 -translate-x-1/2 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-1/2 z-10"
               />
 
               <m.div
