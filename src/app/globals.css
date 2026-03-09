@@ -119,11 +119,3 @@ button:focus-visible {
     drop-shadow(0 0 35px rgba(201, 168, 76, 0.25));
 }
 
-@keyframes pulse-nexus {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-}
-
-.nexus-pulse {
-  animation: pulse-nexus 3s ease-in-out infinite;
-}
