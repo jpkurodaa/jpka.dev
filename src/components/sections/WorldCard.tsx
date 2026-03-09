@@ -44,37 +44,37 @@ export default function WorldCard({
         {/* Glow effect */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 group-hover:opacity-100 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(201,168,76,0.08),transparent_40%)]" />
 
+        {/* Full-bleed background image */}
+        {world.image && (
+          <div className="absolute inset-0">
+            <Image
+              src={world.image}
+              alt={world.imageAlt || world.title}
+              fill
+              sizes="100vw"
+              className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+                isEven ? "object-left" : "object-right"
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Gradient — fades image into dark on the text side */}
         <div
-          className={`flex flex-col sm:flex-row ${
-            !isEven ? "sm:flex-row-reverse" : ""
+          className={`absolute inset-0 ${
+            isEven
+              ? "bg-gradient-to-r from-transparent via-void/60 via-45% to-void/95"
+              : "bg-gradient-to-l from-transparent via-void/60 via-45% to-void/95"
+          } max-sm:bg-gradient-to-b max-sm:from-transparent max-sm:via-void/50 max-sm:to-void/90`}
+        />
+
+        {/* Content — positioned on the text side */}
+        <div
+          className={`relative z-[2] flex min-h-[240px] items-center sm:min-h-[280px] ${
+            isEven ? "sm:justify-end" : "sm:justify-start"
           }`}
         >
-          {/* Image */}
-          {world.image && (
-            <div className="relative h-48 shrink-0 overflow-hidden sm:h-auto sm:w-2/5">
-              <Image
-                src={world.image}
-                alt={world.imageAlt || world.title}
-                fill
-                sizes="(max-width: 640px) 100vw, 40vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              {/* Gradient fade — bottom on mobile, toward content on desktop */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[rgba(42,42,42,0.85)] sm:bg-none`}
-              />
-              <div
-                className={`absolute inset-0 hidden sm:block ${
-                  isEven
-                    ? "bg-gradient-to-r from-transparent via-[rgba(42,42,42,0.4)] to-[rgba(42,42,42,0.95)]"
-                    : "bg-gradient-to-l from-transparent via-[rgba(42,42,42,0.4)] to-[rgba(42,42,42,0.95)]"
-                }`}
-              />
-            </div>
-          )}
-
-          {/* Content */}
-          <div className="flex flex-1 flex-col justify-center p-6 sm:p-8 lg:p-10">
+          <div className={`p-6 sm:w-3/5 sm:p-8 lg:p-10 ${isEven ? "sm:pl-4" : "sm:pr-4"}`}>
             <div className="flex items-center gap-3">
               <span className="text-2xl" role="img" aria-label={world.title}>
                 {world.icon}
