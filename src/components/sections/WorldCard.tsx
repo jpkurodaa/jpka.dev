@@ -39,7 +39,7 @@ export default function WorldCard({
         top: position.top,
       }}
       onClick={() => router.push(`/worlds/${world.id}`)}
-      className="absolute w-1/2 aspect-square cursor-pointer group will-change-transform diamond-glow"
+      className="absolute w-1/2 h-1/2 cursor-pointer group will-change-transform diamond-glow"
       role="link"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -53,37 +53,39 @@ export default function WorldCard({
             src={world.image}
             alt={world.imageAlt || world.title}
             fill
-            sizes="(max-width: 640px) 40vw, (max-width: 1024px) 30vw, 320px"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 580px"
             className="object-cover transition-transform duration-700 group-hover:scale-110"
             style={{ objectPosition: world.imagePosition || "center center" }}
           />
         )}
 
-        {/* Dark gradient — clear top (image subject), dark bottom (text) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-void/10 via-void/30 via-45% to-void/85" />
+        {/* Radial vignette — dark center for text, clear edges for image */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_50%_52%,rgba(10,10,10,0.65),rgba(10,10,10,0.15)_65%,transparent_90%)]" />
 
         {/* Holographic sweep on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(135deg,transparent_20%,rgba(201,168,76,0.1)_45%,rgba(201,168,76,0.18)_50%,rgba(201,168,76,0.1)_55%,transparent_80%)]" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(135deg,transparent_20%,rgba(201,168,76,0.08)_45%,rgba(201,168,76,0.15)_50%,rgba(201,168,76,0.08)_55%,transparent_80%)]" />
 
-        {/* Text content — positioned in bottom-center of diamond */}
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-[20%] text-center px-[18%]">
+        {/* Text content — centered in diamond */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-[15%]">
           <span
-            className="text-lg sm:text-2xl lg:text-3xl"
+            className="text-xl sm:text-3xl lg:text-4xl"
             role="img"
             aria-label={world.title}
           >
             {world.icon}
           </span>
-          <h3 className="mt-0.5 font-display text-[11px] sm:text-base lg:text-xl font-bold tracking-wider text-bone">
+          <h3 className="mt-1 font-display text-xs sm:text-xl lg:text-2xl font-bold tracking-wider text-bone">
             {world.title}
           </h3>
-          <p className="mt-0.5 hidden sm:block text-[9px] lg:text-xs font-medium text-gold">
+          {/* Elegant gold separator */}
+          <div className="mt-1.5 hidden sm:block h-px w-8 bg-gold/30" />
+          <p className="mt-1.5 hidden sm:block text-[10px] lg:text-sm font-medium text-gold">
             {world.subtitle}
           </p>
-          <p className="mt-1 hidden lg:block text-[10px] leading-relaxed text-smoke/80 line-clamp-2">
+          <p className="mt-2 hidden lg:block text-[11px] leading-relaxed text-smoke/70 line-clamp-2 max-w-[280px]">
             {world.description}
           </p>
-          <p className="mt-1 sm:mt-2 text-[7px] sm:text-[9px] lg:text-[11px] uppercase tracking-[0.15em] text-gold/40 transition-colors duration-300 group-hover:text-gold">
+          <p className="mt-2 sm:mt-3 text-[7px] sm:text-[10px] lg:text-xs uppercase tracking-[0.2em] text-gold/40 transition-colors duration-300 group-hover:text-gold">
             Explore &rarr;
           </p>
         </div>

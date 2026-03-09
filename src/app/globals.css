@@ -110,13 +110,13 @@ button:focus-visible {
 }
 
 .diamond-glow {
-  filter: drop-shadow(0 0 1px rgba(201, 168, 76, 0.1));
+  filter: drop-shadow(0 0 1px rgba(201, 168, 76, 0.15));
   transition: filter 0.5s ease;
 }
 
 .diamond-glow:hover {
-  filter: drop-shadow(0 0 1px rgba(201, 168, 76, 0.5))
-    drop-shadow(0 0 25px rgba(201, 168, 76, 0.3));
+  filter: drop-shadow(0 0 2px rgba(201, 168, 76, 0.6))
+    drop-shadow(0 0 35px rgba(201, 168, 76, 0.25));
 }
 
 @keyframes pulse-nexus {

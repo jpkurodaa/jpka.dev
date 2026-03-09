@@ -18,13 +18,13 @@ import WorldCard from "@/components/sections/WorldCard";
  */
 const FORMATION = [
   // BUILD → top center, flies in from above
-  { position: { left: "25%", top: "0%" }, from: { x: 0, y: -160 }, delay: 0 },
+  { position: { left: "25%", top: "0%" }, from: { x: 0, y: -200 }, delay: 0 },
   // SPEAK → right center, flies in from right
-  { position: { left: "50%", top: "25%" }, from: { x: 160, y: 0 }, delay: 0.1 },
+  { position: { left: "50%", top: "25%" }, from: { x: 280, y: 0 }, delay: 0.1 },
   // THINK → left center, flies in from left
-  { position: { left: "0%", top: "25%" }, from: { x: -160, y: 0 }, delay: 0.15 },
+  { position: { left: "0%", top: "25%" }, from: { x: -280, y: 0 }, delay: 0.15 },
   // CREATE → bottom center, flies in from below
-  { position: { left: "25%", top: "50%" }, from: { x: 0, y: 160 }, delay: 0.25 },
+  { position: { left: "25%", top: "50%" }, from: { x: 0, y: 200 }, delay: 0.25 },
 ];
 
 /* Diamond centers in SVG viewBox coordinates (0-100) */
@@ -73,7 +73,7 @@ export default function Worlds() {
 
       <div
         ref={containerRef}
-        className="relative mx-auto mt-16 aspect-square w-[260px] sm:w-[480px] lg:w-[640px]"
+        className="relative mx-auto mt-16 w-full aspect-square sm:aspect-[3/2] lg:aspect-[5/3]"
       >
         {/* Diamond cards */}
         {WORLDS.map((world, i) => (
@@ -91,6 +91,7 @@ export default function Worlds() {
         <svg
           className="absolute inset-0 z-10 pointer-events-none"
           viewBox="0 0 100 100"
+          preserveAspectRatio="none"
           fill="none"
           aria-hidden="true"
         >
@@ -101,8 +102,9 @@ export default function Worlds() {
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke="rgba(201,168,76,0.2)"
-              strokeWidth="0.3"
+              stroke="rgba(201,168,76,0.25)"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
               style={{ opacity: prefersReducedMotion ? 1 : lineOpacities[i] }}
             />
           ))}
