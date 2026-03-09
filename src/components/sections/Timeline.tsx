@@ -23,15 +23,8 @@ export default function Timeline() {
         <div className="space-y-12">
           {TIMELINE.map((event, i) => (
             <div key={event.year} className="relative">
-              {/* Node — outside animated div so it always sits on the gold line */}
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                style={{ x: "-50%" }}
-                className="absolute top-1 left-4 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-1/2 z-10"
-              />
+              {/* Node — plain div, centered on line via left offset (no transforms) */}
+              <div className="absolute top-1 left-2.5 h-3 w-3 rounded-full border-2 border-gold bg-void sm:left-[calc(50%-6px)] z-10" />
 
               <m.div
                 initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
