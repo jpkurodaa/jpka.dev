@@ -40,10 +40,10 @@ export default function WorldCard({
 
   return (
     <m.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, delay: index * 0.1, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 40, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 1.2, delay: index * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <div
         onClick={() => router.push(`/worlds/${world.id}`)}
@@ -73,7 +73,7 @@ export default function WorldCard({
 
         {/* Content — pushed into the specified corner */}
         <div
-          className={`relative z-[2] flex min-h-[280px] sm:min-h-[340px] lg:min-h-[400px] ${FLEX_POS[corner]} max-sm:items-end`}
+          className={`relative z-[2] flex min-h-[200px] sm:min-h-[240px] lg:min-h-[280px] ${FLEX_POS[corner]} max-sm:items-end`}
         >
           <div
             className={`p-5 sm:p-6 lg:p-8 sm:w-[42%] ${
