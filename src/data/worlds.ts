@@ -32,7 +32,7 @@ export const WORLDS: World[] = [
     icon: "⚡",
     image: "/images/jp-profile.jpg",
     imageAlt: "JP Kuroda at Kuroda headquarters",
-    imagePosition: "center 30%",
+    imagePosition: "center 20%",
     textAlign: "bottom-left",
     longDescription:
       "Kuroda is a 70-year-old family business — 60+ locations across northern Mexico, thousands of products, and the kind of operational complexity that breaks most digital transformations. When I took over as Director of Kuroda Online, the e-commerce channel existed but wasn't thriving. I learned Adobe Commerce from zero, rebuilt integrations with SAP HANA, restructured the team, and grew digital revenue 300% year over year. The real product isn't the website — it's the omnichannel experience that lets a plumber in Hermosillo get what they need, however they need it.",
@@ -83,7 +83,7 @@ export const WORLDS: World[] = [
     icon: "🎙",
     image: "/images/jp-ammje.jpg",
     imageAlt: "JP Kuroda speaking at AMMJE conference",
-    imagePosition: "30% 30%",
+    imagePosition: "45% 20%",
     textAlign: "bottom-right",
     longDescription:
       "I believe the most important skill in business isn't technical — it's the ability to communicate a complex idea simply. Whether I'm on stage at AMMJE, presenting strategy to the board, or explaining Adobe Commerce architecture to the dev team, the challenge is the same: make the invisible visible. Speaking isn't performance — it's translation. Taking what lives in your head and making it live in someone else's.",
@@ -134,7 +134,7 @@ export const WORLDS: World[] = [
     icon: "🧠",
     image: "/images/jp-ayahuasca.jpg",
     imageAlt: "JP Kuroda at a spiritual retreat in the jungle",
-    imagePosition: "center 20%",
+    imagePosition: "center 10%",
     textAlign: "top-left",
     longDescription:
       "The best business decisions I've made didn't come from spreadsheets — they came from questioning the assumptions behind the spreadsheet. I read voraciously: philosophy, strategy, psychology, spirituality. I've sat in ayahuasca ceremonies in the jungle and boardrooms in Monterrey, and the questions are surprisingly similar: What's real? What matters? What are we actually building here? Thinking isn't separate from doing — it's the foundation that makes doing meaningful.",
@@ -185,7 +185,7 @@ export const WORLDS: World[] = [
     icon: "🎨",
     image: "/images/jp-art-immersive.jpg",
     imageAlt: "JP Kuroda in an immersive art experience",
-    imagePosition: "30% 55%",
+    imagePosition: "55% 45%",
     textAlign: "top-right",
     longDescription:
       "Art is my counterweight. After days of optimizing conversion funnels and debugging commerce integrations, I need something that exists purely for its own sake. I make music, explore immersive installations, go to theater, and experiment with visual art. Creativity isn't a hobby — it's the part of my brain that keeps the rest honest. The best solutions in business come from the same place as the best art: the willingness to try something that might not work.",
