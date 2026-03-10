@@ -1,97 +1,110 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { m, type MotionValue, useTransform } from "framer-motion";
+import Image from "next/image";
+import { m } from "framer-motion";
 import type { World } from "@/data/worlds";
-
-interface WorldCardProps {
-  world: World;
-  scrollProgress: MotionValue<number>;
-  from: { x: number; y: number };
-  delay: number;
-  position: { left: string; top: string };
-}
 
 export default function WorldCard({
   world,
-  scrollProgress,
-  from,
-  delay,
-  position,
-}: WorldCardProps) {
+  index,
+}: {
+  world: World;
+  index: number;
+}) {
   const router = useRouter();
-
-  // Slow, smooth scroll-driven animation
-  const range: [number, number] = [delay, Math.min(delay + 0.55, 1)];
-  const x = useTransform(scrollProgress, range, [from.x, 0]);
-  const y = useTransform(scrollProgress, range, [from.y, 0]);
-  const opacity = useTransform(scrollProgress, range, [0, 1]);
-  const scale = useTransform(scrollProgress, range, [0.75, 1]);
+  const align = world.textAlign || "center";
 
   return (
     <m.div
-      style={{
-        x,
-        y,
-        opacity,
-        scale,
-        left: position.left,
-        top: position.top,
-      }}
-      className="absolute w-1/2 aspect-square pointer-events-none will-change-transform diamond-glow"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.9, delay: index * 0.12, ease: "easeOut" }}
     >
-      {/* Inner diamond — clip-path handles both visual and pointer events */}
       <div
-        className="relative w-full h-full diamond-clip overflow-hidden pointer-events-auto cursor-pointer group"
         onClick={() => router.push(`/worlds/${world.id}`)}
-        role="link"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") router.push(`/worlds/${world.id}`);
-        }}
+        className="group relative cursor-pointer overflow-hidden rounded-2xl border border-ash/50 transition-[border-color,box-shadow] duration-500 hover:border-gold/30 hover:shadow-[0_0_40px_rgba(201,168,76,0.08)]"
       >
-        {/* Background image */}
+        {/* Full-bleed background image */}
         {world.image && (
-          <Image
-            src={world.image}
-            alt={world.imageAlt || world.title}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 425px"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-            style={{ objectPosition: world.imagePosition || "center center" }}
-          />
+          <div className="absolute inset-0">
+            <Image
+              src={world.image}
+              alt={world.imageAlt || world.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1100px"
+              className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
+              style={{ objectPosition: world.imagePosition || "center center" }}
+            />
+          </div>
         )}
 
-        {/* Radial vignette — dark center for text, clear edges for image */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_55%_at_50%_52%,rgba(10,10,10,0.65),rgba(10,10,10,0.15)_65%,transparent_90%)]" />
+        {/* Gradient overlay — adapts to text alignment */}
+        {/* Desktop gradients */}
+        {align === "right" && (
+          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-l from-void/95 via-void/55 via-50% to-transparent" />
+        )}
+        {align === "left" && (
+          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-r from-void/95 via-void/55 via-50% to-transparent" />
+        )}
+        {align === "center" && (
+          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-t from-void/90 via-void/45 via-45% to-void/20" />
+        )}
+        {/* Mobile: always bottom gradient */}
+        <div className="absolute inset-0 sm:hidden bg-gradient-to-t from-void/95 via-void/50 via-50% to-transparent" />
 
-        {/* Holographic sweep on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(135deg,transparent_20%,rgba(201,168,76,0.08)_45%,rgba(201,168,76,0.15)_50%,rgba(201,168,76,0.08)_55%,transparent_80%)]" />
-
-        {/* Text content — centered in diamond */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-[18%]">
-          <span
-            className="text-xl sm:text-3xl lg:text-4xl"
-            role="img"
-            aria-label={world.title}
+        {/* Content */}
+        <div
+          className={`relative z-[2] flex min-h-[260px] sm:min-h-[320px] lg:min-h-[380px] items-center ${
+            align === "right"
+              ? "sm:justify-end"
+              : align === "left"
+                ? "sm:justify-start"
+                : "sm:justify-center"
+          } max-sm:items-end`}
+        >
+          <div
+            className={`p-6 sm:p-8 lg:p-12 ${
+              align === "right"
+                ? "sm:w-[55%] sm:text-left"
+                : align === "left"
+                  ? "sm:w-[55%] sm:text-left"
+                  : "sm:w-[65%] sm:text-center"
+            } max-sm:text-center`}
           >
-            {world.icon}
-          </span>
-          <h3 className="mt-1 font-display text-xs sm:text-xl lg:text-2xl font-bold tracking-wider text-bone">
-            {world.title}
-          </h3>
-          {/* Elegant gold separator */}
-          <div className="mt-1.5 hidden sm:block h-px w-8 bg-gold/30" />
-          <p className="mt-1.5 hidden sm:block text-[10px] lg:text-sm font-medium text-gold">
-            {world.subtitle}
-          </p>
-          <p className="mt-2 hidden lg:block text-[11px] leading-relaxed text-smoke/70 line-clamp-2 max-w-[280px]">
-            {world.description}
-          </p>
-          <p className="mt-2 sm:mt-3 text-[7px] sm:text-[10px] lg:text-xs uppercase tracking-[0.2em] text-gold/40 transition-colors duration-300 group-hover:text-gold">
-            Explore &rarr;
-          </p>
+            <div
+              className={`flex items-center gap-3 ${
+                align === "center" ? "sm:justify-center" : ""
+              } max-sm:justify-center`}
+            >
+              <span className="text-2xl lg:text-3xl" role="img" aria-label={world.title}>
+                {world.icon}
+              </span>
+              <h3 className="font-display text-xl lg:text-3xl font-bold tracking-wider text-bone">
+                {world.title}
+              </h3>
+            </div>
+
+            {/* Gold separator */}
+            <div
+              className={`mt-3 h-px w-10 bg-gold/40 ${
+                align === "center" ? "sm:mx-auto" : ""
+              } max-sm:mx-auto`}
+            />
+
+            <p className="mt-3 text-sm lg:text-base font-medium text-gold">
+              {world.subtitle}
+            </p>
+
+            <p className="mt-3 text-sm leading-relaxed text-smoke lg:text-base">
+              {world.description}
+            </p>
+
+            <p className="mt-5 text-xs uppercase tracking-[0.2em] text-gold/50 transition-colors duration-300 group-hover:text-gold">
+              Explore &rarr;
+            </p>
+          </div>
         </div>
       </div>
     </m.div>
