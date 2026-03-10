@@ -13,20 +13,21 @@ export default function WorldCard({
   index: number;
 }) {
   const router = useRouter();
-  const align = world.textAlign || "center";
+  const align = world.textAlign || "left";
+  const isRight = align === "right";
 
   return (
     <m.div
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, delay: index * 0.12, ease: "easeOut" }}
+      transition={{ duration: 0.9, delay: index * 0.1, ease: "easeOut" }}
     >
       <div
         onClick={() => router.push(`/worlds/${world.id}`)}
-        className="group relative cursor-pointer overflow-hidden rounded-2xl border border-ash/50 transition-[border-color,box-shadow] duration-500 hover:border-gold/30 hover:shadow-[0_0_40px_rgba(201,168,76,0.08)]"
+        className="group relative cursor-pointer overflow-hidden rounded-xl border border-ash/40 transition-[border-color,box-shadow] duration-500 hover:border-gold/25 hover:shadow-[0_0_40px_rgba(201,168,76,0.06)]"
       >
-        {/* Full-bleed background image */}
+        {/* Full-bleed image */}
         {world.image && (
           <div className="absolute inset-0">
             <Image
@@ -34,74 +35,62 @@ export default function WorldCard({
               alt={world.imageAlt || world.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1100px"
-              className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
+              className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
               style={{ objectPosition: world.imagePosition || "center center" }}
             />
           </div>
         )}
 
-        {/* Gradient overlay — adapts to text alignment */}
-        {/* Desktop gradients */}
-        {align === "right" && (
-          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-l from-void/95 via-void/55 via-50% to-transparent" />
-        )}
-        {align === "left" && (
-          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-r from-void/95 via-void/55 via-50% to-transparent" />
-        )}
-        {align === "center" && (
-          <div className="absolute inset-0 max-sm:hidden bg-gradient-to-t from-void/90 via-void/45 via-45% to-void/20" />
-        )}
-        {/* Mobile: always bottom gradient */}
-        <div className="absolute inset-0 sm:hidden bg-gradient-to-t from-void/95 via-void/50 via-50% to-transparent" />
+        {/* Gradient — tight, only covers the text side */}
+        <div
+          className={`absolute inset-0 max-sm:hidden ${
+            isRight
+              ? "bg-gradient-to-l from-void/90 via-void/45 via-40% to-transparent"
+              : "bg-gradient-to-r from-void/90 via-void/45 via-40% to-transparent"
+          }`}
+        />
+        {/* Mobile: bottom gradient */}
+        <div className="absolute inset-0 sm:hidden bg-gradient-to-t from-void/90 via-void/45 via-50% to-transparent" />
 
         {/* Content */}
         <div
-          className={`relative z-[2] flex min-h-[260px] sm:min-h-[320px] lg:min-h-[380px] items-center ${
-            align === "right"
-              ? "sm:justify-end"
-              : align === "left"
-                ? "sm:justify-start"
-                : "sm:justify-center"
+          className={`relative z-[2] flex min-h-[280px] sm:min-h-[340px] lg:min-h-[400px] items-center ${
+            isRight ? "sm:justify-end" : "sm:justify-start"
           } max-sm:items-end`}
         >
           <div
-            className={`p-6 sm:p-8 lg:p-12 ${
-              align === "right"
-                ? "sm:w-[55%] sm:text-left"
-                : align === "left"
-                  ? "sm:w-[55%] sm:text-left"
-                  : "sm:w-[65%] sm:text-center"
-            } max-sm:text-center`}
+            className={`p-5 sm:p-6 lg:p-8 sm:w-[42%] ${
+              isRight ? "sm:text-right" : "sm:text-left"
+            } max-sm:text-center max-sm:w-full`}
           >
             <div
-              className={`flex items-center gap-3 ${
-                align === "center" ? "sm:justify-center" : ""
+              className={`flex items-center gap-2.5 ${
+                isRight ? "sm:justify-end" : "sm:justify-start"
               } max-sm:justify-center`}
             >
-              <span className="text-2xl lg:text-3xl" role="img" aria-label={world.title}>
+              <span className="text-xl lg:text-2xl" role="img" aria-label={world.title}>
                 {world.icon}
               </span>
-              <h3 className="font-display text-xl lg:text-3xl font-bold tracking-wider text-bone">
+              <h3 className="font-display text-lg lg:text-2xl font-bold tracking-wider text-bone">
                 {world.title}
               </h3>
             </div>
 
-            {/* Gold separator */}
             <div
-              className={`mt-3 h-px w-10 bg-gold/40 ${
-                align === "center" ? "sm:mx-auto" : ""
+              className={`mt-2.5 h-px w-8 bg-gold/30 ${
+                isRight ? "sm:ml-auto" : ""
               } max-sm:mx-auto`}
             />
 
-            <p className="mt-3 text-sm lg:text-base font-medium text-gold">
+            <p className="mt-2.5 text-xs lg:text-sm font-medium text-gold">
               {world.subtitle}
             </p>
 
-            <p className="mt-3 text-sm leading-relaxed text-smoke lg:text-base">
+            <p className="mt-2 text-xs leading-relaxed text-smoke sm:text-sm">
               {world.description}
             </p>
 
-            <p className="mt-5 text-xs uppercase tracking-[0.2em] text-gold/50 transition-colors duration-300 group-hover:text-gold">
+            <p className="mt-4 text-[10px] uppercase tracking-[0.2em] text-gold/40 transition-colors duration-300 group-hover:text-gold">
               Explore &rarr;
             </p>
           </div>
